@@ -21,7 +21,6 @@ import {
   Tooltip,
   Typography,
   useColorScheme,
-  useTheme,
 } from "@mui/material";
 import * as Icons from "@mui/icons-material";
 import { useState } from "react";
