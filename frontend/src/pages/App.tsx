@@ -5,7 +5,9 @@ import "@fontsource/roboto/700.css";
 import {
   AppBar,
   Box,
+  createTheme,
   Drawer,
+  FormControlLabel,
   Icon,
   IconButton,
   List,
@@ -13,8 +15,12 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Switch,
+  ThemeProvider,
   Toolbar,
   Typography,
+  useColorScheme,
+  useTheme,
 } from "@mui/material";
 import * as Icons from "@mui/icons-material";
 import { useState } from "react";
@@ -33,8 +39,19 @@ const sidebarItems: Item[] = [
 
 const drawerWidth = 240;
 
+const theme = createTheme({
+  colorSchemes: {
+    dark: true,
+  },
+});
+
 function App({ error }: { error?: boolean }) {
   const [isOpen, setOpen] = useState(false);
+  const { mode, setMode } = useColorScheme();
+
+  if (!mode) {
+    return null;
+  }
 
   return (
     <>
@@ -54,6 +71,23 @@ function App({ error }: { error?: boolean }) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Code containers
           </Typography>
+          <FormControlLabel
+            control={<Switch defaultChecked={mode === "system"} />}
+            label="Automatic theme"
+            labelPlacement="start"
+            onChange={() => setMode(mode === "system" ? "light" : "system")}
+          />
+          {mode != "system" && (
+            <IconButton
+              onClick={() => setMode(mode === "dark" ? "light" : "dark")}
+            >
+              {mode === "dark" ? (
+                <Icons.LightMode />
+              ) : (
+                <Icons.DarkMode htmlColor="#fff" />
+              )}
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -102,4 +136,10 @@ function App({ error }: { error?: boolean }) {
   );
 }
 
-export default App;
+export default function ToggleColorMode() {
+  return (
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  );
+}
