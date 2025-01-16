@@ -18,6 +18,7 @@ import {
   Switch,
   ThemeProvider,
   Toolbar,
+  Tooltip,
   Typography,
   useColorScheme,
   useTheme,
@@ -108,19 +109,26 @@ function App({ error }: { error?: boolean }) {
         <Toolbar />
         <List>
           {sidebarItems.map((item) => (
-            <ListItem
+            <Tooltip
               key={item.title}
-              component={Link}
-              to={item.href}
-              disablePadding
+              title={item.title}
+              placement="right"
+              arrow
             >
-              <ListItemButton>
-                <ListItemIcon>
-                  <Icon component={Icons[item.icon]} />
-                </ListItemIcon>
-                <ListItemText primary={item.title} />
-              </ListItemButton>
-            </ListItem>
+              <ListItem
+                key={item.title}
+                component={Link}
+                to={item.href}
+                disablePadding
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <Icon component={Icons[item.icon]} />
+                  </ListItemIcon>
+                  <ListItemText primary={item.title} />
+                </ListItemButton>
+              </ListItem>
+            </Tooltip>
           ))}
         </List>
       </Drawer>
