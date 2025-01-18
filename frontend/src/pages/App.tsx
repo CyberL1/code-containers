@@ -24,18 +24,15 @@ import {
 } from "@mui/material";
 import * as Icons from "@mui/icons-material";
 import { useState } from "react";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useParams } from "react-router";
 import ErrorPage from "./Error";
 
 interface Item {
   title: string;
   icon: keyof typeof Icons;
   href: string;
+  page?: string;
 }
-
-const sidebarItems: Item[] = [
-  { title: "Containers", icon: "Storage", href: "/containers" },
-];
 
 const drawerWidth = 240;
 
@@ -46,6 +43,18 @@ const theme = createTheme({
 });
 
 function App({ error }: { error?: boolean }) {
+  const params = useParams();
+
+  const sidebarItems: Item[] = [
+    { title: "Containers", icon: "Storage", href: "/containers" },
+    {
+      title: "Terminal",
+      icon: "Terminal",
+      href: `/containers/${params.name}/terminal`,
+      page: "/containers/",
+    },
+  ];
+
   const [isOpen, setOpen] = useState(false);
   const { mode, setMode } = useColorScheme();
 
@@ -107,28 +116,37 @@ function App({ error }: { error?: boolean }) {
       >
         <Toolbar />
         <List>
-          {sidebarItems.map((item) => (
-            <Tooltip
-              key={item.title}
-              title={item.title}
-              placement="right"
-              arrow
-            >
-              <ListItem
-                key={item.title}
-                component={Link}
-                to={item.href}
-                disablePadding
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <Icon component={Icons[item.icon]} />
-                  </ListItemIcon>
-                  <ListItemText primary={item.title} />
-                </ListItemButton>
-              </ListItem>
-            </Tooltip>
-          ))}
+          {sidebarItems.map((item) => {
+            if (!item.page) {
+              item.page = "/";
+            }
+
+            console.log(location.pathname, item.page);
+            if (location.pathname.startsWith(item.page)) {
+              return (
+                <Tooltip
+                  key={item.title}
+                  title={item.title}
+                  placement="right"
+                  arrow
+                >
+                  <ListItem
+                    key={item.title}
+                    component={Link}
+                    to={item.href}
+                    disablePadding
+                  >
+                    <ListItemButton>
+                      <ListItemIcon>
+                        <Icon component={Icons[item.icon]} />
+                      </ListItemIcon>
+                      <ListItemText primary={item.title} />
+                    </ListItemButton>
+                  </ListItem>
+                </Tooltip>
+              );
+            }
+          })}
         </List>
       </Drawer>
       <Toolbar />
@@ -143,10 +161,10 @@ function App({ error }: { error?: boolean }) {
   );
 }
 
-export default function ToggleColorMode() {
+export default function ToggleColorMode({ error }: { error?: boolean }) {
   return (
     <ThemeProvider theme={theme}>
-      <App />
+      {error ? <App error /> : <App />}
     </ThemeProvider>
   );
 }
