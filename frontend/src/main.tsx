@@ -10,6 +10,7 @@ import ContainerPage, {
   Loader as ContainerDataLoader,
 } from "./pages/containers/[name]/index.tsx";
 import TerminalPage from "./pages/containers/[name]/terminal.tsx";
+import ReinstallPage from "./pages/containers/[name]/reinstall.tsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,11 @@ const router = createBrowserRouter([
       {
         path: "/containers/:name/terminal",
         element: <TerminalPage />,
+        loader: ContainerDataLoader,
+      },
+      {
+        path: "/containers/:name/reinstall",
+        element: <ReinstallPage />,
         loader: ContainerDataLoader,
       },
     ],

@@ -59,6 +59,12 @@ function App({ error }: { error?: boolean }) {
       href: `/containers/${params.name}/terminal`,
       page: "/containers",
     },
+    {
+      title: "Reinstall",
+      icon: "Update",
+      href: `/containers/${params.name}/reinstall`,
+      page: "/containers",
+    },
   ];
 
   const [isOpen, setOpen] = useState(false);
