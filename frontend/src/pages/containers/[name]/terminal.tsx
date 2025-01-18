@@ -3,17 +3,6 @@ import { Container } from "../../../types";
 import { Paper, Typography } from "@mui/material";
 import WebTerminal from "../../../components/WebTerminal";
 
-interface Params {
-  name: string;
-}
-
-export async function Loader({ params }: { params: Params }) {
-  const container = await fetch(`/api/containers/${params.name}`);
-
-  const data = await container.json();
-  return data;
-}
-
 export default function TerminalPage() {
   const container = useLoaderData() as Container & { statusCode: number };
 
