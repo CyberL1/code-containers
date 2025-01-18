@@ -18,7 +18,7 @@ export default function ReinstallPage() {
       <Paper variant="outlined">
         <Typography variant="h6">Reinstall: {container.name}</Typography>
         <Typography variant="h6" color="textSecondary">
-          Current image: {container.image.split("/")[1]} {">"} Some new image
+          Current image: {container.image.split("/")[1]}
         </Typography>
         <ButtonGroup>
           <Button
