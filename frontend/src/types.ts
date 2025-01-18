@@ -5,3 +5,9 @@ export interface Container {
   status: string;
   ip: string;
 }
+
+export interface Process {
+  pid: number;
+  user: string;
+  command: string;
+}

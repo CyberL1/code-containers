@@ -3,6 +3,7 @@ import { Container } from "../../../types";
 import { Button, ButtonGroup, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import ContainerStats from "../../../components/ContainerStats";
+import ProcessesTable from "../../../components/ProcessesTable";
 
 interface Params {
   name: string;
@@ -26,33 +27,40 @@ export default function ContainerPage() {
   const [isPowerStateLocked, setPowerStateLocked] = useState<boolean>();
 
   return (
-    <Paper square sx={{ padding: 1 }}>
-      <Paper sx={{ display: "flex" }} variant="outlined">
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Managing: {container.name}
-        </Typography>
-        <ButtonGroup>
-          <Button
-            loading={isPowerStateLocked}
-            onClick={async () => {
-              await switchPowerState(
-                container.status === "running" ? "stop" : "start",
-              );
-            }}
-          >
-            Power {container.status === "running" ? "off" : "on"}
-          </Button>
-          <Button
-            onClick={async () => await switchPowerState("restart")}
-            loading={isPowerStateLocked}
-            disabled={container.status === "exited"}
-          >
-            Restart
-          </Button>
-        </ButtonGroup>
+    <>
+      <Paper square sx={{ padding: 1 }}>
+        <Paper sx={{ display: "flex" }} variant="outlined">
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            Managing: {container.name}
+          </Typography>
+          <ButtonGroup>
+            <Button
+              loading={isPowerStateLocked}
+              onClick={async () => {
+                await switchPowerState(
+                  container.status === "running" ? "stop" : "start",
+                );
+              }}
+            >
+              Power {container.status === "running" ? "off" : "on"}
+            </Button>
+            <Button
+              onClick={async () => await switchPowerState("restart")}
+              loading={isPowerStateLocked}
+              disabled={container.status === "exited"}
+            >
+              Restart
+            </Button>
+          </ButtonGroup>
+        </Paper>
+        <ContainerStats id={container.id} />
       </Paper>
-      <ContainerStats id={container.id} />
-    </Paper>
+      <br />
+      <Paper>
+        <Typography variant="h6">Processes</Typography>
+        <ProcessesTable id={container.id} />
+      </Paper>
+    </>
   );
 
   async function switchPowerState(state: string) {
