@@ -1,15 +1,11 @@
-import { useLoaderData, useRevalidator } from "react-router";
+import { LoaderFunctionArgs, useLoaderData, useRevalidator } from "react-router";
 import { Container } from "../../../types";
 import { Button, ButtonGroup, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import ContainerStats from "../../../components/ContainerStats";
 import ProcessesTable from "../../../components/ProcessesTable";
 
-interface Params {
-  name: string;
-}
-
-export async function Loader({ params }: { params: Params }) {
+export async function Loader({ params }: LoaderFunctionArgs) {
   const container = await fetch(`/api/containers/${params.name}`);
 
   const data = await container.json();
