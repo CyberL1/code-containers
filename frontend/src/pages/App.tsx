@@ -48,6 +48,12 @@ function App({ error }: { error?: boolean }) {
   const sidebarItems: Item[] = [
     { title: "Containers", icon: "Storage", href: "/" },
     {
+      title: "Info",
+      icon: "Info",
+      href: `/containers/${params.name}`,
+      page: "/containers",
+    },
+    {
       title: "Terminal",
       icon: "Terminal",
       href: `/containers/${params.name}/terminal`,
