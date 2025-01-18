@@ -46,12 +46,12 @@ function App({ error }: { error?: boolean }) {
   const params = useParams();
 
   const sidebarItems: Item[] = [
-    { title: "Containers", icon: "Storage", href: "/containers" },
+    { title: "Containers", icon: "Storage", href: "/" },
     {
       title: "Terminal",
       icon: "Terminal",
       href: `/containers/${params.name}/terminal`,
-      page: "/containers/",
+      page: "/containers",
     },
   ];
 

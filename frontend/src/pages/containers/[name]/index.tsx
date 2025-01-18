@@ -32,9 +32,6 @@ export default function ContainerPage() {
           Managing: {container.name}
         </Typography>
         <ButtonGroup>
-          <Button href={`/containers/${container.name}/terminal`}>
-            Terminal
-          </Button>
           <Button
             loading={isPowerStateLocked}
             onClick={async () => {
