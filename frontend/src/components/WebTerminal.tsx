@@ -16,9 +16,7 @@ export default function WebTerminal() {
     if (terminalRef.current) {
       const terminal = new Terminal({ rows: 67 });
 
-      const socket = new WebSocket(
-        `ws://127.0.0.1:3000/containers/${container.id}/terminal`,
-      );
+      const socket = new WebSocket(`/api/containers/${container.id}/terminal`);
 
       const fitAddon = new FitAddon();
       terminal.loadAddon(fitAddon);
