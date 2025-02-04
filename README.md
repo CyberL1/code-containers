@@ -5,7 +5,6 @@ Code Containers is a project designed to help developers create development envi
 
 ## Features
 - Easy setup and configuration
-- Predefined Dockerfiles for various programming languages
 
 ## Getting Started
 To get started with Code Containers, follow these steps:
