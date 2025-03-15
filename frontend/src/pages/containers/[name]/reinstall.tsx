@@ -23,7 +23,7 @@ export default function ReinstallPage() {
         <ButtonGroup>
           <Button
             loading={isReinstalling}
-            onClick={async () => await switchImage("debian")}
+            onClick={async () => await switchImage(container.image.split("/")[1])}
           >
             Reinstall
           </Button>
