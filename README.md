@@ -9,23 +9,25 @@ Code Containers is a project designed to help developers create development envi
 ## Getting Started
 To get started with Code Containers, follow these steps:
 
-1. Clone the repository:
+1. Clone the repository and enter its directory:
   ```bash
   git clone https://github.com/CyberL1/code-containers.git
-  ```
-
-2. Navigate to the project directory:
-  ```bash
   cd code-containers
   ```
 
-3. Build your Docker image:
+2. Copy .env.example to .env:
   ```bash
-  docker build -t code-containers/image images/image.dockerfile
+  cp .env.example .env
+  ```
+
+3. Build example image:
+  ```bash
+  docker build -t code-containers/example images/example
   ```
 
 4. Run it:
   ```bash
+  cd compose
   docker compose up
   ```
 
