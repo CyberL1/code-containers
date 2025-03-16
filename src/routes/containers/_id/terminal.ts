@@ -26,8 +26,6 @@ export default (fastify: FastifyInstance) => {
       container.modem.demuxStream(stream, stdout, stderr);
 
       connection.on("message", (data: Buffer) => {
-        console.log(new TextDecoder().decode(data));
-
         if (new TextDecoder().decode(data).startsWith("{")) {
           const parsed = JSON.parse(data.toString());
 
