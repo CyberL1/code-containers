@@ -1,14 +1,15 @@
 import createContainerSchema from "#src/schemas/createContainerSchema.ts";
 import type { CreateContainerBody, Container } from "#src/types/Container.ts";
+import type { RouteMethods } from "#src/types/Route.ts";
 import {
   createContainer,
   getContainerResponse,
   getContainers,
 } from "#src/utils/containers.ts";
-import type { FastifyInstance, FastifyRequest } from "fastify";
+import type { FastifyRequest } from "fastify";
 
-export default (fastify: FastifyInstance) => {
-  fastify.get("/", async () => {
+export const methods: RouteMethods = {
+  get: async () => {
     const containers = await getContainers();
     const containersResponse = [];
 
@@ -24,16 +25,15 @@ export default (fastify: FastifyInstance) => {
     }
 
     return containersResponse;
-  });
+  },
 
-  fastify.post(
-    "/",
-    { schema: createContainerSchema },
-    async (req: FastifyRequest<{ Body: CreateContainerBody }>) => {
+  post: {
+    schema: createContainerSchema,
+    handler: async (req: FastifyRequest<{ Body: CreateContainerBody }>) => {
       const container = await createContainer({ image: req.body.image });
       await container.start();
 
       return getContainerResponse(container);
     },
-  );
+  },
 };

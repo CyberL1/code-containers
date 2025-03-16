@@ -1,7 +1,7 @@
-import type { FastifyInstance } from "fastify";
+import type { RouteMethods } from "#src/types/Route.ts";
 
-export default (fastify: FastifyInstance) => {
-  fastify.get("/", () => {
+export const methods: RouteMethods = {
+  get: () => {
     return { appName: "code-containers" };
-  });
+  },
 };

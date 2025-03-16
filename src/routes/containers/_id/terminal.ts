@@ -1,50 +1,48 @@
 import type { Container } from "#src/types/Container.ts";
 import { getContainer } from "#src/utils/containers.ts";
-import type { FastifyInstance, FastifyRequest } from "fastify";
+import type { FastifyRequest } from "fastify";
 import { PassThrough } from "stream";
 
-export default (fastify: FastifyInstance) => {
-  fastify.get(
-    "/",
-    { websocket: true },
-    async (connection, req: FastifyRequest<{ Params: Container }>) => {
-      const container = getContainer(req.params.id);
+export const options = { get: { webscket: true } };
 
-      const exec = await container.exec({
-        Cmd: ["/bin/bash"],
-        AttachStdin: true,
-        AttachStdout: true,
-        AttachStderr: true,
-        Tty: true,
-      });
+export const methods = {
+  get: async (connection, req: FastifyRequest<{ Params: Container }>) => {
+    const container = getContainer(req.params.id);
 
-      const stream = await exec.start({ hijack: true, stdin: true });
+    const exec = await container.exec({
+      Cmd: ["/bin/bash"],
+      AttachStdin: true,
+      AttachStdout: true,
+      AttachStderr: true,
+      Tty: true,
+    });
 
-      const stdout = new PassThrough();
-      const stderr = new PassThrough();
+    const stream = await exec.start({ hijack: true, stdin: true });
 
-      container.modem.demuxStream(stream, stdout, stderr);
+    const stdout = new PassThrough();
+    const stderr = new PassThrough();
 
-      connection.on("message", (data: Buffer) => {
-        if (new TextDecoder().decode(data).startsWith("{")) {
-          const parsed = JSON.parse(data.toString());
+    container.modem.demuxStream(stream, stdout, stderr);
 
-          exec.resize({
-            h: parsed.rows,
-            w: parsed.cols,
-          });
-        } else {
-          stream.write(data);
-        }
-      });
+    connection.on("message", (data: Buffer) => {
+      if (new TextDecoder().decode(data).startsWith("{")) {
+        const parsed = JSON.parse(data.toString());
 
-      stdout.on("data", (chunk) => {
-        connection.send(chunk.toString());
-      });
+        exec.resize({
+          h: parsed.rows,
+          w: parsed.cols,
+        });
+      } else {
+        stream.write(data);
+      }
+    });
 
-      stderr.on("data", (chunk) => {
-        connection.send(chunk.toString());
-      });
-    },
-  );
+    stdout.on("data", (chunk) => {
+      connection.send(chunk.toString());
+    });
+
+    stderr.on("data", (chunk) => {
+      connection.send(chunk.toString());
+    });
+  },
 };

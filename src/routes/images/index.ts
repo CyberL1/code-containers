@@ -1,8 +1,7 @@
 import { getImages } from "#src/utils/images.ts";
-import type { FastifyInstance, } from "fastify";
 
-export default (fastify: FastifyInstance) => {
-  fastify.get("/", async () => {
+export const methods = {
+  get: async () => {
     const images = [];
 
     for (const image of await getImages()) {
@@ -10,5 +9,5 @@ export default (fastify: FastifyInstance) => {
     }
 
     return images;
-  });
+  },
 };

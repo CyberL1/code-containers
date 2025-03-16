@@ -1,6 +1,10 @@
 import fastifyWebsocket from "@fastify/websocket";
 import "dotenv/config";
-import fastify from "fastify";
+import fastify, {
+  type RouteOptions,
+  type HTTPMethods,
+  type RouteHandler,
+} from "fastify";
 import { readdirSync } from "fs";
 
 const app = fastify();
@@ -21,12 +25,46 @@ for (let file of routes) {
     let route = `/${file.split(".").slice(0, -1).join(".")}`;
     route = route.replaceAll("_", ":");
 
-    const routePath = route.endsWith("/index") ? route.slice(0, -6) : route;
+    let routePath = route.endsWith("/index") ? route.slice(0, -6) : route;
+    if (routePath === "") {
+      routePath = "/";
+    }
+
     console.log(`Loading route: ${routePath}`);
 
-    app.register((await import(`./routes/${file}`)).default, {
-      prefix: routePath,
+    const routeModule = await import(`./routes/${file}`);
+    const ROUTE_METHODS: HTTPMethods[] = [
+      "get",
+      "post",
+      "put",
+      "delete",
+      "patch",
+    ];
+
+    Object.entries(routeModule.methods).forEach(([method, options]) => {
+      ROUTE_METHODS.splice(ROUTE_METHODS.indexOf(method), 1);
+
+      if (options instanceof Function) {
+        (options as unknown as RouteOptions).handler = options as RouteHandler;
+      }
+
+      app.route({
+        method,
+        url: routePath,
+        ...(options as RouteOptions),
+      });
     });
+
+    for (const method of ROUTE_METHODS) {
+      app.route({
+        method,
+        url: routePath,
+        handler: () => ({
+          code: "METHOD_NOT_ALLOWED",
+          message: `${method.toUpperCase()} is not allowed`,
+        }),
+      });
+    }
   }
 }
 
