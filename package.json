@@ -16,7 +16,6 @@
   "description": "",
   "dependencies": {
     "@fastify/websocket": "^11.0.2",
-    "@xterm/addon-fit": "^0.10.0",
     "dockerode": "^4.0.3",
     "dotenv": "^16.4.7",
     "fastify": "^5.2.1"
