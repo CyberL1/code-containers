@@ -24,6 +24,24 @@
       containers = await response.json();
     }
   }
+
+  async function switchContainerPowerState(
+    id: string,
+    state: "start" | "stop" | "restart",
+  ) {
+    const response = await fetch(`/api/containers/${id}/${state}`, {
+      method: "PUT",
+    });
+
+    if (!response.ok) {
+      alert(`Failed to ${state} container`);
+      return;
+    }
+
+    // Refetch containers
+    const updatedResponse = await fetch("/api/containers");
+    containers = await updatedResponse.json();
+  }
 </script>
 
 Containers:
@@ -48,6 +66,27 @@ Containers:
           </button>
           <button on:click={() => deleteContainer(container.name)}>
             Delete
+          </button>
+          <button
+            on:click={() =>
+              switchContainerPowerState(container.name, "start")}
+            disabled={container.status === "running"}
+          >
+            Start
+          </button>
+          <button
+            on:click={() =>
+              switchContainerPowerState(container.name, "stop")}
+            disabled={container.status !== "running"}
+          >
+            Stop
+          </button>
+          <button
+            on:click={() =>
+              switchContainerPowerState(container.name, "restart")}
+            disabled={container.status !== "running"}
+          >
+            Restart
           </button>
         </td>
       </tr>
