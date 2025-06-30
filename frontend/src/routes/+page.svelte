@@ -56,27 +56,21 @@ Containers:
   <tbody>
     {#each containers as container}
       <tr>
-        <td>{container.name}</td>
+        <td>
+          <a href={`//${container.name}.${location.host}`} target="_blank">
+            {container.name}
+          </a>
+        </td>
         <td>{container.status}</td>
         <td>
           <button
-            on:click={() => window.open(`//${container.name}.${location.host}`)}
-          >
-            Open container
-          </button>
-          <button on:click={() => deleteContainer(container.name)}>
-            Delete
-          </button>
-          <button
-            on:click={() =>
-              switchContainerPowerState(container.name, "start")}
+            on:click={() => switchContainerPowerState(container.name, "start")}
             disabled={container.status === "running"}
           >
             Start
           </button>
           <button
-            on:click={() =>
-              switchContainerPowerState(container.name, "stop")}
+            on:click={() => switchContainerPowerState(container.name, "stop")}
             disabled={container.status !== "running"}
           >
             Stop
@@ -87,6 +81,9 @@ Containers:
             disabled={container.status !== "running"}
           >
             Restart
+          </button>
+          <button on:click={() => deleteContainer(container.name)}>
+            Delete
           </button>
         </td>
       </tr>
