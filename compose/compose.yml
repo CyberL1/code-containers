@@ -4,21 +4,17 @@ services:
   server:
     build: ..
     env_file: ../.env
-    ports:
-      - 3000:3000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
   proxy:
-    build: ../proxy
+    image: nginx:alpine
     env_file: ../.env
     ports:
       - 80:80
-    network_mode: host
     volumes:
       - ../proxy/proxy.conf:/etc/nginx/templates/proxy.conf
+    entrypoint: /bin/sh -c 'sed "s/{PROXY_DOMAIN}/$$PROXY_DOMAIN/" etc/nginx/templates/proxy.conf > etc/nginx/conf.d/default.conf && nginx -g "daemon off;"'
   frontend:
     image: nginx:alpine
-    ports:
-      - 5173:80
     volumes:
       - ../frontend/dist:/usr/share/nginx/html

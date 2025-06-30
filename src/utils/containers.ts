@@ -24,6 +24,11 @@ export const createContainer = ({ name, image }: CreateContainerBody) => {
     Labels: {
       "code-containers.image": image,
     },
+    NetworkingConfig: {
+      EndpointsConfig: {
+        "code-containers_default": {},
+      }
+    }
   });
 
   return container;
@@ -37,7 +42,6 @@ export const getContainerResponse = async (container: Dockerode.Container) => {
     name: inspect.Name.slice(1),
     image: inspect.Config.Image,
     status: inspect.State.Status,
-    ip: inspect.NetworkSettings.Networks.bridge.IPAddress,
   } as Container;
 
   return response;
