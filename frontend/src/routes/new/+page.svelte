@@ -1,5 +1,6 @@
 <script>
   let name = "";
+  let image = "example"; // Default image
 
   async function handleSubmit() {
     const response = await fetch("/api/containers", {
@@ -8,11 +9,11 @@
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        image: "example",
         name,
+        image,
       }),
     });
-    
+
     const json = await response.json();
 
     if (!response.ok) {
@@ -34,6 +35,15 @@
     <label>
       Name:
       <input type="text" bind:value={name} required />
+    </label>
+    <label>
+      Image:
+      <input
+        type="text"
+        bind:value={image}
+        placeholder="e.g., node:latest"
+        required
+      />
     </label>
     <button type="submit">Create</button>
   </form>
