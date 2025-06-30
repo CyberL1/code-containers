@@ -17,10 +17,11 @@ export const methods = {
       Params: RemoveContainerParams;
       Querystring: RemoveContainerQuery;
     }>,
+    reply,
   ) => {
     const container = getContainer(req.params.id);
 
     await container.remove({ force: req.query.force === "true" });
-    return getContainerResponse(container);
+    reply.code(204);
   },
 };
