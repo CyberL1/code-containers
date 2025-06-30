@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount } from "svelte";
 
-  let containers = [] as { name: string, status: string }[];
+  let containers = [] as { name: string; status: string }[];
 
   onMount(async () => {
     const response = await fetch("/api/containers");
@@ -10,7 +10,9 @@
 
   async function deleteContainer(id: string) {
     if (confirm("Are you sure you want to delete this container?")) {
-      const deleteResp = await fetch(`/api/containers/${id}?force=true`, { method: "DELETE" });
+      const deleteResp = await fetch(`/api/containers/${id}?force=true`, {
+        method: "DELETE",
+      });
 
       if (!deleteResp.ok) {
         alert("Failed to delete container");
@@ -39,8 +41,15 @@ Containers:
         <td>{container.name}</td>
         <td>{container.status}</td>
         <td>
-          <button on:click={() => window.open(`//${container.name}.${location.host}`)}>Open container</button>
-        <button on:click={() => deleteContainer(container.name)}>Delete</button></td>
+          <button
+            on:click={() => window.open(`//${container.name}.${location.host}`)}
+          >
+            Open container
+          </button>
+          <button on:click={() => deleteContainer(container.name)}>
+            Delete
+          </button>
+        </td>
       </tr>
     {/each}
   </tbody>
@@ -51,7 +60,8 @@ Containers:
     border-collapse: collapse;
     width: 100%;
   }
-  th, td {
+  th,
+  td {
     border: 1px solid #ccc;
     padding: 0.5rem;
     text-align: left;
