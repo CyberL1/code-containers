@@ -19,7 +19,7 @@ export const methods: RouteMethods = {
         name: container.Names[0].slice(1),
         image: container.Image,
         status: container.State,
-      } as Omit<Container, "ip">;
+      } as Container;
 
       containersResponse.push(response);
     }
@@ -30,9 +30,12 @@ export const methods: RouteMethods = {
   post: {
     schema: createContainerSchema,
     handler: async (req: FastifyRequest<{ Body: CreateContainerBody }>) => {
-      const container = await createContainer({ image: req.body.image });
-      await container.start();
+      const container = await createContainer({
+        name: req.body.name,
+        image: req.body.image,
+      });
 
+      await container.start();
       return getContainerResponse(container);
     },
   },
