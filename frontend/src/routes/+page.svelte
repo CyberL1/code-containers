@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  let containers = [] as { name: string; status: string }[];
+  let containers = [] as { id: string; name: string; status: string }[];
 
   onMount(async () => {
     const response = await fetch("/api/containers");
@@ -64,25 +64,24 @@ Containers:
         <td>{container.status}</td>
         <td>
           <button
-            on:click={() => switchContainerPowerState(container.name, "start")}
+            on:click={() => switchContainerPowerState(container.id, "start")}
             disabled={container.status === "running"}
           >
             Start
           </button>
           <button
-            on:click={() => switchContainerPowerState(container.name, "stop")}
+            on:click={() => switchContainerPowerState(container.id, "stop")}
             disabled={container.status !== "running"}
           >
             Stop
           </button>
           <button
-            on:click={() =>
-              switchContainerPowerState(container.name, "restart")}
+            on:click={() => switchContainerPowerState(container.id, "restart")}
             disabled={container.status !== "running"}
           >
             Restart
           </button>
-          <button on:click={() => deleteContainer(container.name)}>
+          <button on:click={() => deleteContainer(container.id)}>
             Delete
           </button>
         </td>
