@@ -26,7 +26,7 @@ export const methods = {
     }
 
     const oldContainer = getContainer(req.params.id);
-    const name = (await oldContainer.inspect()).Name;
+    const name = (await oldContainer.inspect()).Name.slice(17);
 
     const image =
       req.body?.image ||
