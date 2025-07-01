@@ -19,7 +19,7 @@ export const getContainer = (id: string) => {
 
 export const createContainer = ({ name, image }: CreateContainerBody) => {
   const container = dockerode.createContainer({
-    name: `code-containers-${name}`,
+    name: `code-containers-${name}`.toLowerCase(),
     Image: `code-containers/${image}`,
     Labels: {
       "code-containers.image": image,
@@ -27,8 +27,8 @@ export const createContainer = ({ name, image }: CreateContainerBody) => {
     NetworkingConfig: {
       EndpointsConfig: {
         "code-containers_default": {},
-      }
-    }
+      },
+    },
   });
 
   return container;

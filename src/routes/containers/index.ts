@@ -31,7 +31,7 @@ export const methods: RouteMethods = {
     schema: createContainerSchema,
     handler: async (req: FastifyRequest<{ Body: CreateContainerBody }>) => {
       const container = await createContainer({
-        name: req.body.name.toLowerCase(),
+        name: req.body.name,
         image: req.body.image,
       });
 
