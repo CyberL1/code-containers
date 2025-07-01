@@ -4,9 +4,10 @@ const createContainerSchema: FastifySchema = {
   body: {
     type: "object",
     properties: {
+      name: { type: "string", minLength: 2, maxLength: 63 },
       image: { type: "string", minLength: 1 },
     },
-    required: ["image"],
+    required: ["name", "image"],
   },
 };
 
