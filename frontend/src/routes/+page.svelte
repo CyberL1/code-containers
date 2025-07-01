@@ -1,7 +1,8 @@
 <script lang="ts">
+  import type { Container } from "$lib/types";
   import { onMount } from "svelte";
 
-  let containers = [] as { id: string; name: string; status: string }[];
+  let containers = [] as Container[];
 
   onMount(async () => {
     const response = await fetch("/api/containers");
