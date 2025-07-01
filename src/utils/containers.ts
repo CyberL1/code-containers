@@ -40,7 +40,7 @@ export const getContainerResponse = async (container: Dockerode.Container) => {
   const response = {
     id: inspect.Id,
     name: inspect.Name.slice(17),
-    image: inspect.Config.Image,
+    image: inspect.Config.Image.slice(16),
     status: inspect.State.Status,
   } as Container;
 

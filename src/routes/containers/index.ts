@@ -17,7 +17,7 @@ export const methods: RouteMethods = {
       const response = {
         id: container.Id,
         name: container.Names[0].slice(17),
-        image: container.Image,
+        image: container.Image.slice(16),
         status: container.State,
       } as Container;
 
