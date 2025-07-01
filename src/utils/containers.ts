@@ -19,7 +19,7 @@ export const getContainer = (id: string) => {
 
 export const createContainer = ({ name, image }: CreateContainerBody) => {
   const container = dockerode.createContainer({
-    name,
+    name: `code-containers-${name}`,
     Image: `code-containers/${image}`,
     Labels: {
       "code-containers.image": image,
@@ -39,7 +39,7 @@ export const getContainerResponse = async (container: Dockerode.Container) => {
 
   const response = {
     id: inspect.Id,
-    name: inspect.Name.slice(1),
+    name: inspect.Name.slice(17),
     image: inspect.Config.Image,
     status: inspect.State.Status,
   } as Container;

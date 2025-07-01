@@ -16,7 +16,7 @@ export const methods: RouteMethods = {
     for (const container of containers) {
       const response = {
         id: container.Id,
-        name: container.Names[0].slice(1),
+        name: container.Names[0].slice(17),
         image: container.Image,
         status: container.State,
       } as Container;
