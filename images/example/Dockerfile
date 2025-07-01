@@ -1,29 +1,25 @@
+FROM alpine AS setup
+
+WORKDIR /code-server
+
+RUN apk add curl && \
+  curl -Lo /tmp/code-server.tar.gz $(curl -s https://api.github.com/repos/coder/code-server/releases/latest | grep browser_download_url | grep 'linux-arm64.tar.gz' | cut -d '"' -f 4) && \
+  tar xvz --strip-components=1 -f /tmp/code-server.tar.gz && \
+  printf "bind-addr: 0.0.0.0\nauth: none\n" > config.yaml
+
 FROM debian
 ENV USER=example
 
-RUN apt update && \
-  apt install sudo curl -y
+COPY --from=setup /code-server /opt/code-server
 
-RUN adduser $USER --disabled-password --gecos "" && \
+RUN apt update && \
+  apt install sudo -y && \
+  adduser $USER --disabled-password --gecos "" && \
   echo "$USER:$USER" | chpasswd && \
   echo "$USER ALL=(ALL) PASSWD: ALL" > /etc/sudoers.d/$USER
 
-RUN mkdir /opt/code-server && \
-  curl -Lo /tmp/code-server.tar.gz $(curl -s https://api.github.com/repos/coder/code-server/releases/latest | grep browser_download_url | grep arm64.tar.gz | cut -d '"' -f 4) && \
-  tar xvf /tmp/code-server.tar.gz --strip-components 1 -C /opt/code-server && \
-  mkdir /workspace && \
-  chown $USER:$USER /workspace
-
 USER $USER
-WORKDIR /home/$USER
-
-RUN mkdir -p .config/code-server && \
-  <<EOF cat > .config/code-server/config.yaml
-bind-addr: 0.0.0.0
-auth: none
-EOF
-
 WORKDIR /workspace
-COPY . .
 
-ENTRYPOINT ["/opt/code-server/bin/code-server", "."]
+COPY --chown=$USER workspace .
+ENTRYPOINT ["/opt/code-server/bin/code-server", ".", "--config", "/opt/code-server/config.yaml"]
