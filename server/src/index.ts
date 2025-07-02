@@ -9,6 +9,11 @@ import fastify, {
 } from "fastify";
 import { readdirSync } from "fs";
 
+if (process.env.DEV_MODE !== "true") {
+  process.env.PORT = "3000";
+  process.env.HOST = "0.0.0.0";
+}
+
 const app = fastify();
 app.register(fastifyWebsocket);
 
