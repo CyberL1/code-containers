@@ -12,6 +12,6 @@ services:
     ports:
       - 80:80
     volumes:
-      - ../proxy/proxy.conf:/etc/nginx/templates/proxy.conf.template
+      - ../proxy/proxy.conf:/etc/nginx/templates/default.conf.template
   frontend:
     build: ../frontend
