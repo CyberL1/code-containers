@@ -7,11 +7,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
   proxy:
-    image: nginx:alpine
+    build: ../proxy
     env_file: ../.env
     ports:
       - 80:80
-    volumes:
-      - ../proxy/proxy.conf:/etc/nginx/templates/default.conf.template
   frontend:
     build: ../frontend
