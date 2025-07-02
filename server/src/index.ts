@@ -71,5 +71,4 @@ for (let file of routes) {
 }
 
 await app.listen({ port: Number(process.env.PORT), host: process.env.HOST });
-
 console.log("App ready on", `http://${process.env.HOST}:${process.env.PORT}`);
