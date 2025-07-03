@@ -1,12 +1,12 @@
+import type { FastifyRequest } from "fastify";
 import createContainerSchema from "#src/schemas/createContainerSchema.ts";
-import type { CreateContainerBody, Container } from "#src/types/Container.ts";
+import type { Container, CreateContainerBody } from "#src/types/Container.ts";
 import type { RouteMethods } from "#src/types/Route.ts";
 import {
   createContainer,
   getContainerResponse,
   getContainers,
 } from "#src/utils/containers.ts";
-import type { FastifyRequest } from "fastify";
 
 export const methods: RouteMethods = {
   get: async () => {

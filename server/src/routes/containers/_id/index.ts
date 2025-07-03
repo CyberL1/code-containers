@@ -1,10 +1,10 @@
+import type { FastifyRequest } from "fastify";
 import type {
   Container,
   RemoveContainerParams,
   RemoveContainerQuery,
 } from "#src/types/Container.ts";
 import { getContainer, getContainerResponse } from "#src/utils/containers.ts";
-import type { FastifyRequest } from "fastify";
 
 export const methods = {
   get: (req: FastifyRequest<{ Params: Container }>) => {

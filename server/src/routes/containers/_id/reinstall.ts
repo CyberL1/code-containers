@@ -1,3 +1,4 @@
+import type { FastifyRequest } from "fastify";
 import type {
   CreateContainerBody,
   RemoveContainerParams,
@@ -9,7 +10,6 @@ import {
   getContainerResponse,
 } from "#src/utils/containers.ts";
 import { getImage } from "#src/utils/images.ts";
-import type { FastifyRequest } from "fastify";
 
 export const methods = {
   post: async (

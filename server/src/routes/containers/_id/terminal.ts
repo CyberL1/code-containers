@@ -1,7 +1,7 @@
-import type { Container } from "#src/types/Container.ts";
-import { getContainer } from "#src/utils/containers.ts";
 import type { FastifyRequest } from "fastify";
 import { PassThrough } from "stream";
+import type { Container } from "#src/types/Container.ts";
+import { getContainer } from "#src/utils/containers.ts";
 
 export const options = { get: { webscket: true } };
 

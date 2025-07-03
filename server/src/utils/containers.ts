@@ -1,5 +1,5 @@
-import type { Container, CreateContainerBody } from "#src/types/Container.ts";
 import Dockerode from "dockerode";
+import type { Container, CreateContainerBody } from "#src/types/Container.ts";
 
 const dockerode = new Dockerode();
 

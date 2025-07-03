@@ -1,11 +1,12 @@
 import { config } from "dotenv";
+
 config({ path: "../.env" });
 
 import fastifyWebsocket from "@fastify/websocket";
 import fastify, {
-  type RouteOptions,
   type HTTPMethods,
   type RouteHandler,
+  type RouteOptions,
 } from "fastify";
 import { readdirSync } from "fs";
 
