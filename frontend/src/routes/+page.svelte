@@ -1,13 +1,8 @@
 <script lang="ts">
-  import type { Container } from "$lib/types";
-  import { onMount } from "svelte";
+  import { invalidate } from "$app/navigation";
+  import type { PageProps } from "./$types";
 
-  let containers = [] as Container[];
-
-  onMount(async () => {
-    const response = await fetch("/api/containers");
-    containers = await response.json();
-  });
+  const { data }: PageProps = $props();
 
   async function deleteContainer(id: string) {
     if (confirm("Are you sure you want to delete this container?")) {
@@ -21,8 +16,7 @@
       }
 
       // Refetch containers
-      const response = await fetch("/api/containers");
-      containers = await response.json();
+      invalidate("/api/containers");
     }
   }
 
@@ -40,8 +34,7 @@
     }
 
     // Refetch containers
-    const updatedResponse = await fetch("/api/containers");
-    containers = await updatedResponse.json();
+    invalidate("/api/containers");
   }
 </script>
 
@@ -55,7 +48,7 @@ Containers:
     </tr>
   </thead>
   <tbody>
-    {#each containers as container}
+    {#each data.containers as container}
       <tr>
         <td>
           <a href={`//${container.name}.${location.host}`} target="_blank">
